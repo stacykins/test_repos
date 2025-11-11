@@ -1,50 +1,43 @@
 pipeline {
     agent any
 
-    environment {
-        VS_PATH = '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"'
-        SOLUTION = 'test_repos.sln'
-        CONFIG = 'Debug'
-    }
-
     stages {
-        stage('Checkout SCM') {
+        stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                    credentialsId: 'github-token',
+                    url: 'https://github.com/stacykins/test_repos.git'
             }
         }
 
         stage('Restore NuGet Packages') {
             steps {
-                echo 'Restoring NuGet packages via MSBuild...'
-                bat '%VS_PATH% %SOLUTION% /p:Configuration=%CONFIG% /m /restore'
+                echo 'Restoring NuGet packages via nuget.exe...'
+                bat '"D:\\nuget.exe" restore test_repos.sln'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building solution...'
-                bat '%VS_PATH% %SOLUTION% /p:Configuration=%CONFIG% /m'
+                bat '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe" test_repos.sln /p:Configuration=Debug /m'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Skipping tests for now (GoogleTest/xUnit not configured yet)'
+                bat 'x64\\Debug\\test_repos.exe --gtest_output="xml:x64\\Debug\\test_report.xml"'
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline finished'
-        }
-        failure {
-            echo 'Build failed!'
-        }
-        success {
-            echo 'Build succeeded!'
+            xunit (
+                tools: [
+                    [$class: 'GoogleTest', pattern: 'x64/Debug/test_report.xml']
+                ]
+            )
+            archiveArtifacts artifacts: 'x64/Debug/test_report.xml', fingerprint: true
         }
     }
 }
-
