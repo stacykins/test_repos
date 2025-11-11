@@ -12,7 +12,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Шлях до MSBuild на твоїй машині
+                
                 bat '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe" test_repos.sln /p:Configuration=Debug /m'
             }
         }
@@ -26,7 +26,7 @@ pipeline {
 
     post {
         always {
-            // Публікація результатів GoogleTest у Jenkins через xUnit
+            // ГЏГіГЎГ«ВіГЄГ Г¶ВіГї Г°ГҐГ§ГіГ«ГјГІГ ГІВіГў GoogleTest Гі Jenkins Г·ГҐГ°ГҐГ§ xUnit
             xunit (
                 tools: [
                     [$class: 'GoogleTest', pattern: 'x64/Debug/test_report.xml']
@@ -34,7 +34,7 @@ pipeline {
                 thresholds: [failedThreshold: 0]
             )
 
-            // Архівувати XML звіт
+            // ГЂГ°ГµВіГўГіГўГ ГІГЁ XML Г§ГўВіГІ
             archiveArtifacts artifacts: 'x64/Debug/test_report.xml', fingerprint: true
         }
     }
