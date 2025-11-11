@@ -34,11 +34,10 @@ pipeline {
         always {
             xunit (
                 tools: [
-                    // Changed 'GoogleTest' to 'GTest'
-                    [$class: 'GTest', pattern: 'x64/Debug/test_report.xml']
+                   
+                    [$class: 'JUnit', pattern: 'x64/Debug/test_report.xml']
                 ]
             )
             archiveArtifacts artifacts: 'x64/Debug/test_report.xml', fingerprint: true
         }
     }
-}
