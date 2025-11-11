@@ -1,3 +1,7 @@
-﻿Build started at 1:42...
-========== Build: 0 succeeded, 0 failed, 1 up-to-date, 0 skipped ==========
-========== Build completed at 1:42 and took 00,088 seconds ==========
+﻿Rebuild started at 2:00...
+1>------ Rebuild All started: Project: test_repos, Configuration: Debug x64 ------
+1>pch.cpp
+1>test.cpp
+1>test_repos.vcxproj -> D:\vs_mkr_test1\x64\Debug\test_repos.exe
+========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
+========== Rebuild completed at 2:00 and took 03,506 seconds ==========
