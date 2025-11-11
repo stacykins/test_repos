@@ -34,10 +34,11 @@ pipeline {
         always {
             xunit (
                 tools: [
-                   
+                    // Use the JUnit parser, which is compatible with the GTest XML format
                     [$class: 'JUnit', pattern: 'x64/Debug/test_report.xml']
                 ]
             )
             archiveArtifacts artifacts: 'x64/Debug/test_report.xml', fingerprint: true
         }
     }
+}
