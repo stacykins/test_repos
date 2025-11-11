@@ -5,7 +5,6 @@ pipeline {
         VS_PATH = '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"'
         SOLUTION = 'test_repos.sln'
         CONFIG = 'Debug'
-        NUGET = '"D:\\nuget.exe"'
     }
 
     stages {
@@ -17,10 +16,8 @@ pipeline {
 
         stage('Restore NuGet Packages') {
             steps {
-                echo 'Restoring NuGet packages...'
-                bat '%NUGET% restore %SOLUTION%'
-                // Альтернатива: відновлення через MSBuild
-                // bat '%VS_PATH% %SOLUTION% /p:Configuration=%CONFIG% /m /restore'
+                echo 'Restoring NuGet packages via MSBuild...'
+                bat '%VS_PATH% %SOLUTION% /p:Configuration=%CONFIG% /m /restore'
             }
         }
 
@@ -50,3 +47,4 @@ pipeline {
         }
     }
 }
+
