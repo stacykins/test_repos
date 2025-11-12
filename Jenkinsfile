@@ -32,7 +32,7 @@ pipeline {
 
     post {
         always {
-            // Use the built-in JUnit publisher instead of xUnit
+
             junit 'x64/Debug/test_report.xml'
             archiveArtifacts artifacts: 'x64/Debug/test_report.xml', fingerprint: true
         }
